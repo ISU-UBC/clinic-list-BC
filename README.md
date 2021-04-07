@@ -1,4 +1,8 @@
 # clinic-list-BC
+## Authors
+Code written by Cameron Lindsay
+Project Authors: Rita McCracken, Ian Cooper, Cameron Lindsay, Tiffany Hill
+For the CAMP/MAAP Clinic List Project
 
 Clinic list algorithm used to determine a list of primary care clinics in British Columbia, Canada. Version 1 part of a manuscript submitted for publication Spring 2021.
 
