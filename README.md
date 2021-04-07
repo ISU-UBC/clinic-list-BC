@@ -1,10 +1,19 @@
 # clinic-list-BC
-## Authors
-Code written by Cameron Lindsay
-Project Authors: Rita McCracken, Ian Cooper, Cameron Lindsay, Tiffany Hill
-For the CAMP/MAAP Clinic List Project
-
 Clinic list algorithm used to determine a list of primary care clinics in British Columbia, Canada. Version 1 part of a manuscript submitted for publication Spring 2021.
+
+## Authors
+
+### Code:
+Cameron Lindsay1 
+
+### Project Authors: 
+Ian R. Cooper1, Cameron Lindsay1, Keaton Fraser1, Tiffany T. Hill1, Andrew Siu1, Sarah Fletcher1, Jan Klimas1,2, Michee-Ana Hamilton1, Amanda D. Frazer1, Elka Humphrys1, Kira Koepke1, Lindsay Hedden3,4, Morgan Price1, Rita K. McCracken1
+
+## Author affiliations: 
+1.	Innovation Support Unit, Department of Family Practice, University of British Columbia, Vancouver, BC, Canada
+2.	British Columbia Centre on Substance Use, Vancouver, BC, Canada
+3.	Faculty of Health Sciences, Simon Fraser University, Burnaby, BC, Canada
+4.	British Columbia Academic Health Sciences Network, Vancouver, BC, Canada
 
 ## Requirements
 * Python v3.7.7 or higher
