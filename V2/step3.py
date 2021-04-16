@@ -15,7 +15,7 @@ class Modified(s1.List):
 
     def dict_application(self, key, value):
         def create_dict(newdict, key, value):
-            newdict.update(pd.Series(self.list.loc[(self.list[key].notna())&(self.list[value].notna()), key].values,index=self.list.loc[(self.list[key].notna())&(self.list[value].notna()), value]).to_dict())
+            newdict.update(pd.Series(self.list.loc[(self.list[key].notna())&(self.list[value].notna())&(self.list[key]!='')&(self.list[value]!=''), key].values,index=self.list.loc[(self.list[key].notna())&(self.list[value].notna())&(self.list[key]!='')&(self.list[value]!=''), value]).to_dict())
             newdict = {k: v for k, v in newdict.items() if pd.Series(v).notna().all()}  
             return newdict
         def apply_dict(newdict, key, value):
@@ -24,6 +24,7 @@ class Modified(s1.List):
         
         newdict={}
         newdict = create_dict(newdict, key, value)
+        print(newdict)
         apply_dict(newdict, key, value)
        
     def geocode_flags(self, geolocator, geocoded, CPSBC_mod=False):
@@ -159,13 +160,13 @@ class Modified(s1.List):
                 for item in formatted_categories:
                     if item == 'IS_'+list_type:
                         self.list[item] = 1
-                    else:
-                        self.list[item] = 0
+
 
         heading_standardization()
         categorization()
         if list_type != None:
             CPSBC.list = pd.concat([CPSBC.list, self.list]).dropna(how='all')
+            CPSBC.list.sort_values(by=['GEO_ADDRESS','NUM_PHYSICIANS'], inplace=True)
 
 def assign_id(categories):
     def id_generation(working_list, boolean, droplist, id_name, sheet_name):
@@ -370,6 +371,18 @@ if __name__ == "__main__":
     CHSA.postal_standardization(upper=True)
     REGION.list.rename(columns={'CHSA_CD': 'CHSA_NUM'}, inplace = True)
 
+    # Dictionary Application THIS DOES NOT APPEAR TO BE WORKING
+    CHSA.dict_application('CHSA_NUM','POSTAL')
+    region_dicts = ['CHSA_NAME', 'HA_ID', 'HA_NAME', 'CHSA_UR_CLASS']
+    for item in region_dicts:
+        REGION.dict_application(item,'CHSA_NUM')
+    for item in headings:
+        if item == 'HOSP':
+            CPSBC.dict_application(item, 'GEO_ADDRESS')
+        else:
+            CPSBC.dict_application(item, 'GEO_LOCATION')
+
+
     # UPCC standardization
     UPCC.misc_addons(categories, renames={'POSTAL_CODE':'POSTAL', 'PHONE_NUMBER':'PHONE'}, empties=['FAX']) 
 
@@ -399,23 +412,13 @@ if __name__ == "__main__":
     CPSBC.list_application(categories)
 
     # Addresses from lists added, Order matters
-    UPCC.list_application(categories, list_type='UPCC')
-    GSR.list_application(categories, list_type='LTC')
-    QFD.list_application(categories, list_type='LTC')
-    CORR_FAC.list_application(categories, list_type='CORRECTIONS')
-    WALKIN.list_application(categories, list_type='WALKIN')
     HOSP.list_application(categories, list_type='HOSP')
+    WALKIN.list_application(categories, list_type='WALKIN')
+    CORR_FAC.list_application(categories, list_type='CORRECTIONS')
+    QFD.list_application(categories, list_type='LTC')
+    GSR.list_application(categories, list_type='LTC')
+    UPCC.list_application(categories, list_type='UPCC')
 
-    # Dictionary Application
-    CHSA.dict_application('CHSA_NUM','POSTAL')
-    region_dicts = ['CHSA_NAME', 'HA_ID', 'HA_NAME', 'CHSA_UR_CLASS']
-    for item in region_dicts:
-        REGION.dict_application(item,'CHSA_NUM')
-    for item in headings:
-        if item == 'HOSP':
-            CPSBC.dict_application(item, 'GEO_ADDRESS')
-        else:
-            CPSBC.dict_application(item, 'GEO_LOCATION')
 
     CPSBC.list.drop_duplicates(subset = ['GEO_LOCATION'], keep = 'last', inplace=True)
 
@@ -424,12 +427,6 @@ if __name__ == "__main__":
     assign_id(categories)
 
     CPSBC.out_sheet(writer, 'Clinic List Complete')
-    # WALKIN.out_sheet(writer, 'Walkin')
-    # CORR_FAC.out_sheet(writer, 'Corrfac')
-    # GSR.out_sheet(writer, 'GSR')
-    # HOSP.out_sheet(writer, 'Hospital')
-    # UPCC.out_sheet(writer, 'UPCC')
-    # QFD.out_sheet(writer, 'QFD')
     writer.save()
 
 
