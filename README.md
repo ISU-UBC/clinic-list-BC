@@ -59,7 +59,7 @@ A list of long-term care facilities from the BC Office of the Seniors Advocate
 * geocode_added.py
 * geocode_flagged.py
 
-## Code Used (V2, *In Development*)
+## Code Used (V2)
 * step1.py
 * step3.py
 
@@ -81,7 +81,7 @@ A list of long-term care facilities from the BC Office of the Seniors Advocate
 15. This will return 'clinic_list.xlsx'
 16. Enjoy!
 
-## Steps (V2, *In Development*)
+## Steps (V2)
 1. Ensure all materials are in materials folder locally (change directory if required), run 'step1.py'. *NOTE: Geocoding is a time-consuming process and may take upwards of 20-30 minutes as limits are placed on queried addresses.*
 2. This will return 'OUTPUT_STEP1.xlsx'
 3. Rename 'OUTPUT_STEP1.xlsx' to 'INPUT_STEP2.xlsx'. Making a copy of the original file is recommended.
